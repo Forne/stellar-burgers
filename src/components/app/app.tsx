@@ -13,7 +13,14 @@ import '../../index.css';
 import styles from './app.module.css';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  RouterProvider,
+  useNavigate
+} from 'react-router-dom';
+import { useEffect } from 'react';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+import { useDispatch } from '../../services/store';
 
 const router = createBrowserRouter([
   { path: '/', element: <ConstructorPage /> },
@@ -28,7 +35,12 @@ const router = createBrowserRouter([
   {
     path: '/feed/:number',
     element: (
-      <Modal title='' onClose={() => {}}>
+      <Modal
+        title=''
+        onClose={() => {
+          history.back();
+        }}
+      >
         <OrderInfo />
       </Modal>
     )
@@ -36,7 +48,12 @@ const router = createBrowserRouter([
   {
     path: '/ingredients/:id',
     element: (
-      <Modal title='' onClose={() => {}}>
+      <Modal
+        title=''
+        onClose={() => {
+          history.back();
+        }}
+      >
         <IngredientDetails />
       </Modal>
     )
@@ -44,18 +61,31 @@ const router = createBrowserRouter([
   {
     path: '/profile/orders/:number',
     element: (
-      <Modal title='' onClose={() => {}}>
+      <Modal
+        title=''
+        onClose={() => {
+          history.back();
+        }}
+      >
         <OrderInfo />
       </Modal>
     )
   }
 ]);
 
-const App = () => (
-  <div className={styles.app}>
-    <AppHeader />
-    <RouterProvider router={router} />
-  </div>
-);
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+  }, []);
+
+  return (
+    <div className={styles.app}>
+      <AppHeader />
+      <RouterProvider router={router} />
+    </div>
+  );
+};
 
 export default App;

@@ -20,9 +20,9 @@ export const BurgerIngredients: FC = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchIngredients());
+  // }, [dispatch]);
 
   const [currentTab, setCurrentTab] = useState<TTabMode>('bun');
   const titleBunRef = useRef<HTMLHeadingElement>(null);
