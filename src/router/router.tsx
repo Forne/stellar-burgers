@@ -73,7 +73,7 @@ export const router = createBrowserRouter([
         path: '/feed/:number',
         element: (
           <Modal
-            title=''
+            title='Заказ'
             onClose={() => {
               history.back();
             }}
@@ -86,7 +86,7 @@ export const router = createBrowserRouter([
         path: '/ingredients/:id',
         element: (
           <Modal
-            title=''
+            title='Ингредиент'
             onClose={() => {
               history.back();
             }}
@@ -99,7 +99,7 @@ export const router = createBrowserRouter([
         path: '/profile/orders/:number',
         element: (
           <Modal
-            title=''
+            title='Заказ'
             onClose={() => {
               history.back();
             }}
