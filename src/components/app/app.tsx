@@ -6,12 +6,14 @@ import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 import { useDispatch } from '../../services/store';
 import { router } from '../../router/router';
+import { getUser } from '../../services/slices/userSlice';
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(getUser());
   }, []);
 
   return (
