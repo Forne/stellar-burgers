@@ -6,7 +6,7 @@ import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
   const dispatch = useDispatch();
-  const { user, isLoading } = useSelector(selectAuth);
+  const { user, isProfileUpdateLoading } = useSelector(selectAuth);
 
   const [formValue, setFormValue] = useState({
     name: user?.name || '',
@@ -48,7 +48,7 @@ export const Profile: FC = () => {
     }));
   };
 
-  if (isLoading) {
+  if (isProfileUpdateLoading) {
     return <Preloader />;
   }
 

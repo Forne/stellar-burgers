@@ -12,6 +12,7 @@ import {
 } from '@pages';
 import { IngredientDetails, Modal, OrderInfo } from '@components';
 import { Layout } from './layout';
+import { ProtectedRoute } from '../components/protected-route';
 
 export const router = createBrowserRouter([
   {
@@ -19,12 +20,54 @@ export const router = createBrowserRouter([
     children: [
       { path: '/', element: <ConstructorPage /> },
       { path: '/feed', element: <Feed /> },
-      { path: '/login', element: <Login /> },
-      { path: '/register', element: <Register /> },
-      { path: '/forgot-password', element: <ForgotPassword /> },
-      { path: '/reset-password', element: <ResetPassword /> },
-      { path: '/profile', element: <Profile /> },
-      { path: '/profile/orders', element: <ProfileOrders /> },
+      {
+        path: '/login',
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <Login />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/register',
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <Register />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/forgot-password',
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <ForgotPassword />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/reset-password',
+        element: (
+          <ProtectedRoute onlyUnAuth>
+            <ResetPassword />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: '/profile/orders',
+        element: (
+          <ProtectedRoute>
+            <ProfileOrders />
+          </ProtectedRoute>
+        )
+      },
       { path: '*', element: <NotFound404 /> },
       {
         path: '/feed/:number',
@@ -61,7 +104,9 @@ export const router = createBrowserRouter([
               history.back();
             }}
           >
-            <OrderInfo />
+            <ProtectedRoute>
+              <OrderInfo />
+            </ProtectedRoute>
           </Modal>
         )
       }

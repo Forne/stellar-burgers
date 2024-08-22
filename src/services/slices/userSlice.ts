@@ -4,6 +4,7 @@ import {
   SerializedError
 } from '@reduxjs/toolkit';
 import {
+  getOrdersApi,
   getUserApi,
   loginUserApi,
   logoutApi,
@@ -12,21 +13,25 @@ import {
   TRegisterData,
   updateUserApi
 } from '@api';
-import { TUser } from '@utils-types';
+import { TOrder, TUser } from '@utils-types';
 import { deleteCookie, setCookie } from '../../utils/cookie';
 
 interface UserState {
   user: TUser | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
+  orders: TOrder[] | null;
+  isAuthChecking: boolean;
   error: SerializedError | null;
+  isProfileUpdateLoading: boolean;
+  isOrdersLoading: boolean;
 }
 
 const initialState: UserState = {
   user: null,
-  isAuthenticated: false,
-  isLoading: true,
-  error: null
+  orders: null,
+  isAuthChecking: true,
+  error: null,
+  isProfileUpdateLoading: false,
+  isOrdersLoading: true
 };
 
 export const registerUser = createAsyncThunk(
@@ -70,13 +75,18 @@ export const logoutUser = createAsyncThunk(
 // );
 
 export const getUser = createAsyncThunk(
-  'user/get',
+  'user/profile/get',
   async () => await getUserApi()
 );
 
 export const updateUser = createAsyncThunk(
-  'user/update',
+  'user/profile/update',
   async (user: Partial<TRegisterData>) => await updateUserApi(user)
+);
+
+export const getUserOrders = createAsyncThunk(
+  'user/orders/get',
+  async () => await getOrdersApi()
 );
 
 export const usersSlice = createSlice({
@@ -84,89 +94,98 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    selectAuth: (state) => state
+    selectAuth: (state) => state,
+    selectOrders: (state) => state.orders
   },
   extraReducers: (builder) => {
     // Register
     builder
       .addCase(registerUser.pending, (state) => {
-        state.isLoading = true;
+        state.isAuthChecking = true;
         state.error = null;
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.error;
-        state.isAuthenticated = false;
+        state.isAuthChecking = false;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
         state.user = action.payload.user;
-        state.isAuthenticated = true;
+        state.error = null;
+        state.isAuthChecking = false;
       });
 
     // Login
     builder
       .addCase(loginUser.pending, (state) => {
-        state.isLoading = true;
+        state.isAuthChecking = true;
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.error;
-        state.isAuthenticated = false;
+        state.isAuthChecking = false;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
         state.user = action.payload.user;
-        state.isAuthenticated = true;
+        state.error = null;
+        state.isAuthChecking = false;
       });
 
     // Logout TODO
     builder.addCase(logoutUser.fulfilled, (state) => {
-      state.isLoading = false;
       state.error = null;
       state.user = null;
-      state.isAuthenticated = false;
+      state.isAuthChecking = false;
     });
 
     // Get user
     builder
       .addCase(getUser.pending, (state) => {
-        state.isLoading = true;
+        state.isAuthChecking = true;
         state.error = null;
       })
       .addCase(getUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error;
         state.user = null;
-        state.isAuthenticated = false;
+        state.error = action.error;
+        state.isAuthChecking = false;
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.error = null;
         state.user = action.payload.user;
-        state.isAuthenticated = true;
+        state.isAuthChecking = false;
       });
 
     // Update user
     builder
       .addCase(updateUser.pending, (state) => {
-        state.isLoading = true;
+        state.isProfileUpdateLoading = true;
         state.error = null;
       })
       .addCase(updateUser.rejected, (state, action) => {
-        state.isLoading = false;
         state.error = action.error;
+        state.isProfileUpdateLoading = false;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.isLoading = false;
         state.user = action.payload.user;
+        state.isProfileUpdateLoading = false;
+      });
+
+    // User orders
+    builder
+      .addCase(getUserOrders.pending, (state) => {
+        state.isProfileUpdateLoading = true;
+        state.error = null;
+      })
+      .addCase(getUserOrders.rejected, (state, action) => {
+        state.error = action.error;
+        state.isProfileUpdateLoading = false;
+      })
+      .addCase(getUserOrders.fulfilled, (state, action) => {
+        state.orders = action.payload;
+        state.isProfileUpdateLoading = false;
       });
   }
 });
 
-export const { selectAuth } = usersSlice.selectors;
+export const { selectAuth, selectOrders } = usersSlice.selectors;
 
 export const usersReducer = usersSlice.reducer;
