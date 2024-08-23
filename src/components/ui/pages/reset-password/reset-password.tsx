@@ -27,6 +27,7 @@ export const ResetPasswordUI: FC<ResetPasswordUIProps> = ({
         <div className='pb-6'>
           <PasswordInput
             onChange={(e) => setPassword(e.target.value)}
+            autoComplete='new-password'
             value={password}
             name='password'
           />

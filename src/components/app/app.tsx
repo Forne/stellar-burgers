@@ -1,14 +1,26 @@
-import { ConstructorPage } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
 
-import { AppHeader } from '@components';
+import { RouterProvider } from 'react-router-dom';
+import { useEffect } from 'react';
+import { fetchIngredients } from '@slices';
+import { useDispatch } from '../../services/store';
+import { router } from '../../router/router';
+import { getUser } from '@slices';
 
-const App = () => (
-  <div className={styles.app}>
-    <AppHeader />
-    <ConstructorPage />
-  </div>
-);
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchIngredients());
+    dispatch(getUser());
+  }, []);
+
+  return (
+    <div className={styles.app}>
+      <RouterProvider router={router} />
+    </div>
+  );
+};
 
 export default App;

@@ -28,6 +28,7 @@ export const LoginUI: FC<LoginUIProps> = ({
           <div className='pb-6'>
             <Input
               type='email'
+              autoComplete='email'
               placeholder='E-mail'
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -41,6 +42,7 @@ export const LoginUI: FC<LoginUIProps> = ({
             <PasswordInput
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              autoComplete='current-password'
               name='password'
             />
           </div>
