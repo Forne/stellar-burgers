@@ -30,6 +30,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
           <div className='pb-6'>
             <Input
               type='text'
+              autoComplete='name'
               placeholder='Имя'
               onChange={(e) => setUserName(e.target.value)}
               value={userName}
@@ -42,6 +43,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
           <div className='pb-6'>
             <Input
               type='email'
+              autoComplete='email'
               placeholder='E-mail'
               onChange={(e) => setEmail(e.target.value)}
               value={email}
@@ -54,6 +56,7 @@ export const RegisterUI: FC<RegisterUIProps> = ({
           <div className='pb-6'>
             <PasswordInput
               onChange={(e) => setPassword(e.target.value)}
+              autoComplete='new-password'
               value={password}
               name='password'
             />
