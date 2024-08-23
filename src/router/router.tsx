@@ -13,6 +13,7 @@ import {
 import { IngredientDetails, Modal, OrderInfo } from '@components';
 import { Layout } from './layout';
 import { ProtectedRoute } from '../components/protected-route';
+import { RModal } from './modal';
 
 export const router = createBrowserRouter([
   {
@@ -72,42 +73,36 @@ export const router = createBrowserRouter([
       {
         path: '/feed/:number',
         element: (
-          <Modal
-            title='Заказ'
-            onClose={() => {
-              history.back();
-            }}
-          >
-            <OrderInfo />
-          </Modal>
+          <>
+            <Feed />
+            <RModal title='Заказ' backUrl={'/feed'}>
+              <OrderInfo />
+            </RModal>
+          </>
         )
       },
       {
         path: '/ingredients/:id',
         element: (
-          <Modal
-            title='Ингредиент'
-            onClose={() => {
-              history.back();
-            }}
-          >
-            <IngredientDetails />
-          </Modal>
+          <>
+            <ConstructorPage />
+            <RModal title='Ингредиент' backUrl='/'>
+              <IngredientDetails />
+            </RModal>
+          </>
         )
       },
       {
         path: '/profile/orders/:number',
         element: (
-          <Modal
-            title='Заказ'
-            onClose={() => {
-              history.back();
-            }}
-          >
-            <ProtectedRoute>
-              <OrderInfo />
-            </ProtectedRoute>
-          </Modal>
+          <ProtectedRoute>
+            <>
+              <ProfileOrders />
+              <RModal title='Заказ' backUrl='/profile/orders'>
+                <OrderInfo />
+              </RModal>
+            </>
+          </ProtectedRoute>
         )
       }
     ]
