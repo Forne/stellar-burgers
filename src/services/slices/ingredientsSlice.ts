@@ -34,7 +34,7 @@ const ingredientsSlice = createSlice({
     selectBuns: (state) => state.buns,
     selectMains: (state) => state.mains,
     selectSauces: (state) => state.sauces,
-    selectIsLoading: (state) => state.isLoading
+    selectIngredientsIsLoading: (state) => state.isLoading
   },
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.pending, (state) => {
@@ -61,7 +61,7 @@ export const {
   selectBuns,
   selectMains,
   selectSauces,
-  selectIsLoading
+  selectIngredientsIsLoading
 } = ingredientsSlice.selectors;
 
 export const ingredientsReducer = ingredientsSlice.reducer;

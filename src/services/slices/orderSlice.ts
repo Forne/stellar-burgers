@@ -70,6 +70,8 @@ export const orderSlice = createSlice({
   },
   selectors: {
     selectOrderState: (state) => state,
+    selectOrderBun: (state) => state.bun,
+    selectOrderIngredients: (state) => state.ingredients,
     selectOrderRequest: (state) => state.orderRequest,
     selectOrderModalData: (state) => state.orderModalData
   },
@@ -85,8 +87,13 @@ export const orderSlice = createSlice({
   }
 });
 
-export const { selectOrderState, selectOrderRequest, selectOrderModalData } =
-  orderSlice.selectors;
+export const {
+  selectOrderState,
+  selectOrderBun,
+  selectOrderIngredients,
+  selectOrderRequest,
+  selectOrderModalData
+} = orderSlice.selectors;
 
 export const { addIngredient, removeIngredient, moveIngredient, resetOrder } =
   orderSlice.actions;

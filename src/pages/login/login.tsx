@@ -1,13 +1,13 @@
 import { FC, FormEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { loginUser, selectAuth } from '../../services/slices/userSlice';
+import { loginUser, selectUserAuthError } from '@slices';
 import { useDispatch, useSelector } from '../../services/store';
 
 export const Login: FC = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { error } = useSelector(selectAuth);
+  const error = useSelector(selectUserAuthError);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

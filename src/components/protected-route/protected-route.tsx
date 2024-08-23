@@ -1,5 +1,5 @@
 import { useSelector } from '../../services/store';
-import { selectAuth } from '../../services/slices/userSlice';
+import { selectUserData, selectUserIsAuthChecking } from '@slices';
 import { Preloader } from '@ui';
 import { Navigate, useLocation } from 'react-router-dom';
 
@@ -12,7 +12,8 @@ export const ProtectedRoute = ({
   onlyUnAuth,
   children
 }: ProtectedRouteProps) => {
-  const { user, isAuthChecking } = useSelector(selectAuth); // isAuthCheckedSelector — селектор получения состояния загрузки пользователя
+  const isAuthChecking = useSelector(selectUserIsAuthChecking);
+  const user = useSelector(selectUserData);
   const location = useLocation();
 
   if (isAuthChecking) {

@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from '../../services/store';
 import {
   placeOrder,
   resetOrder,
+  selectOrderBun,
   selectOrderModalData,
   selectOrderRequest,
-  selectOrderState
-} from '../../services/slices/orderSlice';
+  selectOrderState,
+  selectUserData
+} from '@slices';
 import { useNavigate } from 'react-router-dom';
-import { selectAuth } from '../../services/slices/userSlice';
 
 export const BurgerConstructor: FC = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ export const BurgerConstructor: FC = () => {
   const constructorItems = useSelector(selectOrderState);
   const orderRequest = useSelector(selectOrderRequest);
   const orderModalData = useSelector(selectOrderModalData);
-  const { user } = useSelector(selectAuth);
+  const user = useSelector(selectUserData);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;

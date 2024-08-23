@@ -4,19 +4,18 @@ import { useInView } from 'react-intersection-observer';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI, Preloader } from '@ui';
 import {
-  fetchIngredients,
   selectBuns,
-  selectIsLoading,
+  selectIngredientsIsLoading,
   selectMains,
   selectSauces
-} from '../../services/slices/ingredientsSlice';
+} from '@slices';
 import { useDispatch, useSelector } from '../../services/store';
 
 export const BurgerIngredients: FC = () => {
   const buns = useSelector(selectBuns);
   const mains = useSelector(selectMains);
   const sauces = useSelector(selectSauces);
-  const loading = useSelector(selectIsLoading);
+  const loading = useSelector(selectIngredientsIsLoading);
 
   const dispatch = useDispatch();
 

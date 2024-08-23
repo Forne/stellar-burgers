@@ -3,10 +3,10 @@ import styles from './app.module.css';
 
 import { RouterProvider } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchIngredients } from '../../services/slices/ingredientsSlice';
+import { fetchIngredients } from '@slices';
 import { useDispatch } from '../../services/store';
 import { router } from '../../router/router';
-import { getUser } from '../../services/slices/userSlice';
+import { getUser } from '@slices';
 
 const App = () => {
   const dispatch = useDispatch();

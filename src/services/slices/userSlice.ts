@@ -63,17 +63,6 @@ export const logoutUser = createAsyncThunk(
     })
 );
 
-// export const forgotPasswordUser = createAsyncThunk(
-//   'auth/password-reset',
-//   async ({ email }: { email: string }) => await forgotPasswordApi({ email })
-// );
-//
-// export const resetPasswordUser = createAsyncThunk(
-//   'auth/password-reset/reset',
-//   async ({ password, token }: { password: string; token: string }) =>
-//     await resetPasswordApi({ password, token })
-// );
-
 export const getUser = createAsyncThunk(
   'user/profile/get',
   async () => await getUserApi()
@@ -94,8 +83,12 @@ export const usersSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    selectAuth: (state) => state,
-    selectOrders: (state) => state.orders
+    selectUserState: (state) => state,
+    selectUserData: (state) => state.user,
+    selectUserOrders: (state) => state.orders,
+    selectUserIsAuthChecking: (state) => state.isAuthChecking,
+    selectUserAuthError: (state) => state.error,
+    selectUserProfileUpdateIsLoading: (state) => state.isProfileUpdateLoading
   },
   extraReducers: (builder) => {
     // Register
@@ -186,6 +179,13 @@ export const usersSlice = createSlice({
   }
 });
 
-export const { selectAuth, selectOrders } = usersSlice.selectors;
+export const {
+  selectUserState,
+  selectUserData,
+  selectUserOrders,
+  selectUserIsAuthChecking,
+  selectUserProfileUpdateIsLoading,
+  selectUserAuthError
+} = usersSlice.selectors;
 
 export const usersReducer = usersSlice.reducer;

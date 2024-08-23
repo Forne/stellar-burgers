@@ -8,12 +8,17 @@ import {
   useState
 } from 'react';
 import { useDispatch, useSelector } from '../../services/store';
-import { selectAuth, updateUser } from '../../services/slices/userSlice';
+import {
+  selectUserData,
+  selectUserProfileUpdateIsLoading,
+  updateUser
+} from '@slices';
 import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
   const dispatch = useDispatch();
-  const { user, isProfileUpdateLoading } = useSelector(selectAuth);
+  const user = useSelector(selectUserData);
+  const isProfileUpdateLoading = useSelector(selectUserProfileUpdateIsLoading);
 
   const [formValue, setFormValue] = useState({
     name: user?.name || '',
